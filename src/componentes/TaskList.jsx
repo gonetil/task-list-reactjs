@@ -19,7 +19,7 @@ function TaskList() {
     }     
     const removeTask = (id) => {
         
-        setTasks(tasks.filter(task => task.id != id));
+        setTasks(tasks.filter(task => task.id !== id));
     }                                                   
     return (
         <>

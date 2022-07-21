@@ -8,7 +8,7 @@ function TaskForm(props) {
     const addTask = (event) => {
         event.preventDefault();
         console.log(text);
-        if (text.trim() != '')
+        if (text.trim() !== '')
             props.newTaskFn(text);
         setText('');
     }
