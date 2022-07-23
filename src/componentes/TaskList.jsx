@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TaskForm from "./TaskForm";
 import Task from "./Task";
 import '../css/TaskList.css';
@@ -7,19 +7,31 @@ import {v4 as uuidv4 } from 'uuid';
 function TaskList() {
     const [tasks,setTasks] = useState([]);
 
+    const updateTaskList= (taskList) => {
+        setTasks(taskList);
+        localStorage.setItem('tasks',JSON.stringify(taskList));
+    }
+
+    useEffect (() => { 
+        const taskList = localStorage.getItem('tasks');
+        if (taskList) {
+            setTasks(JSON.parse(taskList));
+        }       
+       },[]);
+       
     const findTask = (id) => { return tasks.map(task => task.id).indexOf(id); }; 
 
     const addTask = (aTask) => {
-                        setTasks([ ...tasks, {id: uuidv4(), text: aTask, isCompleted: false}] );
+                        updateTaskList([ ...tasks, {id: uuidv4(), text: aTask, isCompleted: false}] );
                     };
     const markAsDone = (id) => {
                             const index = findTask(id);
                             tasks[index].isCompleted=!tasks[index].isCompleted;
-                            setTasks([...tasks]);
+                            updateTaskList([...tasks]);
     }     
     const removeTask = (id) => {
         
-        setTasks(tasks.filter(task => task.id !== id));
+        updateTaskList(tasks.filter(task => task.id !== id));
     }                                                   
     return (
         <>
